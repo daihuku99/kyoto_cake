@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <h2>商品一覧画面</h2>
+    <%= link_to '追加', new_admins_item_path, class: "btn btn-default" %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>商品ID</th>
+          <th>商品名</th>
+          <th></th>
+          <th>税抜き価格</th>
+          <th>ジャンル</th>
+          <th>ステータス</th>
+          <th colspan="5"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr>
+            <td><%= item.id %></td>
+            <td><%= link_to item.name, admins_item_path(item) %></td>
+            <td><%= attachment_image_tag item, :image, :fill, 60, 60, format: 'jpeg' %></td>
+            <td><%= item.non_taxed_price %></td>
+            <td><%= item.genre_id %></td>
+            <td><%= item.is_valid %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

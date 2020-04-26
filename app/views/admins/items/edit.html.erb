@@ -1,0 +1,42 @@
+<div class="container">
+	<div class="row">
+		<h3>商品編集画面</h3>
+		<div class="item-edit-form">
+			<%= form_with model: @item, url: admins_item_path(@item), local: true do |f| %>
+				<div class="col-xs-3">
+					<%= f.attachment_field :image, placeholder: '画像を選択してください' %>
+				</div>
+				<div class="col-xs-6">
+					<table>
+						<tr>
+							<th colspan="2"></th>
+						</tr>
+						<tbody>
+							<tr>
+								<td>商品名</td>
+								<td><%= f.text_field :name %></td>
+							</tr>
+							<tr>
+								<td>商品説明</td>
+								<td><%= f.text_field :detail %></td>
+							</tr>
+							<tr>
+								<td>ジャンル</td>
+								<td><%= f.collection_select :genre_id, @genres, :id, :name %></td>
+							</tr>
+							<tr>
+								<td>税抜き価格</td>
+								<td><%= f.text_field :non_taxed_price %></td>
+							</tr>
+							<tr>
+								<td>販売ステータス</td>
+								<td><%= f.select :is_valid, [["販売中", "有効"], ["売り切れ", "無効"]] %></td>
+							</tr>
+						</tbody>
+					</table>
+					<%= f.submit '編集する' %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

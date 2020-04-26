@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="row">
+		<div class="genre-edit">
+			<h3>ジャンル編集画面</h3>
+
+			<%= form_with model: @genre, url: admins_genre_path(@genre), method: :patch, local: true do |f| %>
+				<h5>ジャンル</h5>
+				<%= f.text_field :name %>
+
+				<%= f.radio_button :is_valid, :有効, checked: true %>
+				<%= f.label :有効 %>
+
+				<%= f.radio_button :is_valid, :無効 %>
+				<%= f.label :無効 %>
+				<%= f.submit '編集する' %>
+
+			<% end %>
+		</div>
+	</div>
+</div>

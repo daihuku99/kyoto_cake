@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KyotoCake</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <% if admin_signed_in? %>
+          <%= link_to admins_root_path do %><h3>トップページ</h3><% end %>
+          <% else %>
+          <%= link_to root_path do %><h3>トップページ</h3><% end %>
+          <% end %>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <% if admin_signed_in? %>
+          <li><%= link_to ' 商品一覧', admins_items_path, class: "glyphicon glyphicon-gift" %></li>
+          <li><%= link_to ' 会員一覧', admins_end_users_path, class: "glyphicon glyphicon-user" %></li>
+          <li><%= link_to ' 注文履歴一覧', admins_orders_path, class: "glyphicon glyphicon-list-alt" %></li>
+          <li><%= link_to ' ジャンル管理', admins_genres_path, class: "glyphicon glyphicon-star" %></li>
+          <li><%= link_to ' ログアウト', destroy_admins_user_session_path, method: :delete, class: "glyphicon glyphicon-log-out" %></li>
+          <% elsif end_user_signed_in? %>
+          <li>ようこそ、<%= current_end_user.first_name %> <%= current_end_user.last_name %>さん！</li>
+          <li><%= link_to ' マイページ', end_user_path(current_end_user), class: "glyphicon glyphicon-home" %></li>
+          <li><%= link_to ' アバウトページ', customers_about_path, class: "glyphicon glyphicon-comment" %></li>
+          <li><%= link_to ' 商品一覧', items_path, class: "glyphicon glyphicon-gift" %></li>
+          <li><%= link_to ' カート', cart_items_path, class: "glyphicon glyphicon-shopping-cart" %></li>
+          <li><%= link_to ' ログアウト', destroy_end_user_session_path, method: :delete, class: "glyphicon glyphicon-log-out" %></li>
+          <% else %>
+          <li><%= link_to ' アバウトページ', customers_about_path, class: "glyphicon glyphicon-comment" %></li>
+          <li><%= link_to ' 商品一覧', items_path, class: "glyphicon glyphicon-gift" %></li>
+          <li><%= link_to ' 新規登録', new_end_user_registration_path, class: "glyphicon glyphicon-heart-empty" %></li>
+          <li><%= link_to ' ログイン', new_end_user_session_path, class: "glyphicon glyphicon-thumbs-up" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+</header>
+    <%= yield %>
+  </body>
+</html>

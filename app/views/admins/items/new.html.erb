@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="row">
+		<h2>商品新規登録</h2>
+		<%= form_with model: @item, url: admins_items_path, local: true do |f| %>
+
+			<h5>商品名</h5>
+			<%= f.text_field :name %>
+
+			<h5>商品説明</h5>
+			<%= f.text_area :detail %>
+
+			<h5>選択画像</h5>
+			<%= f.attachment_field :image %>
+
+			<h5>ジャンル</h5>
+			<%= f.collection_select :genre_id, @genres, :id, :name %> <!--genre_id = データの登録先、@genres = プルダウンで選択させたい値 -->
+
+			<h5>税抜き価格</h5>
+			<%= f.text_field :non_taxed_price %>
+
+			<h5>販売ステータス</h5>
+			<%= f.select :is_valid, [["販売中", "有効"], ["売り切れ", "無効"]]  %>
+
+			<%= f.submit '登録する' %>
+
+		<% end %>
+	</div>
+</div>
