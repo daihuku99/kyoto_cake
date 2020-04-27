@@ -58,6 +58,7 @@
         <%= f.hidden_field :postcode, :value => @postcode %>
         <%= f.hidden_field :direction, :value => @direction %>
         <%= hidden_field_tag :select_address, @select_address %>
+        <%= f.hidden_field :total_price, :value => @order.total_price %>
         <%= f.label :address, @address %><%= f.label :direction, @direction %>
 
         <%= f.submit '購入を確定する' %>

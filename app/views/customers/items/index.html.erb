@@ -18,7 +18,7 @@
           <td><%= attachment_image_tag(item, :image, size: "100x100") %></td>
           <td><%= link_to item.name, item_path(item) %></td>
           <td>¥<%= item.tax_price %>
-            <% if current_end_user.add_item?(item.id) %>
+            <% if end_user_signed_in? && current_end_user.add_item?(item.id) %>
               <p>この商品はすでにカートに入っています</p>
             <% end %>
           </td>

@@ -19,10 +19,9 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-	# def set_tax
-	# 	@tax = 1.1
-	# end
-	
+	def set_tax
+		@tax = 1.1
+	end
 
 	private
 	def configure_permitted_parameters

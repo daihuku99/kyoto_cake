@@ -1,5 +1,5 @@
 class Customers::OrdersController < ApplicationController
-
+  before_action :set_tax
   def new
     @order = Order.new
   end
@@ -7,29 +7,18 @@ class Customers::OrdersController < ApplicationController
   def confirm
     @select_address = params[:select_address]
     if @select_address == "1"
-      @address = current_end_user.address
-      @postcode = current_end_user.postcode
-      @direction = current_end_user.first_name
+      @address,@postcode,@direction = current_end_user.address,current_end_user.postcode,current_end_user.first_name
     elsif @select_address == "2"
       delivery = Delivery.find(order_params[:address_id])
-      @address = delivery.address
-      @postcode = delivery.postcode
-      @direction = delivery.direction
+      @address,@postcode,@direction = delivery.address,delivery.postcode,delivery.direction
     else
-      @address = order_params[:address]
-      @postcode = order_params[:postcode]
-      @direction = order_params[:direction]
+      @address,@postcode,@direction = order_params[:address],order_params[:postcode],order_params[:direction]
     end
-    # @a,@b,@c = 1,2,3
     @order = Order.new
     @order.postage = 800
     @order.tax = 1.1
     @order.payment_type = order_params[:payment_type]
-    @order.total_price = current_end_user.total_price(@order.tax)
-    # @order.total_price = 0
-    # current_end_user.cart_items.each do |cart_item|
-    #   @order.total_price += (cart_item.item.non_taxed_price * @order.tax).floor * cart_item.quantity
-    # end
+    @order.total_price = current_end_user.total_price(@order.tax) #total_priceはend_user.rbのインスタンスメソッド
   end
 
   def create
@@ -50,7 +39,7 @@ class Customers::OrdersController < ApplicationController
         order_detail.quantity = cart_item.quantity
         order_detail.order_id = order.id
         order_detail.save
-        # p order_detail.errors
+        # p order_detail.errors(デバックの方法)
       end
       current_end_user.cart_items.destroy_all
       redirect_to thanks_path
@@ -59,7 +48,12 @@ class Customers::OrdersController < ApplicationController
     end
   end
 
+  def index
+    @orders = current_end_user.orders
+  end
+
   def show
+    @order = Order.find(params[:id])
   end
 
   private

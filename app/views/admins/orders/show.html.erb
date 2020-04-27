@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-4 col-xs-offset-1">
+      <div class="title">
+        <h2>管理者側注文詳細画面</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-1">
+        <div>購入者</div>
+      </div>
+      <div class="col-xs-3">
+        <%= link_to @order.end_user.first_name + @order.end_user.last_name, admins_end_users_path %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-1">
+        <div>配送先</div>
+      </div>
+      <div class="col-xs-2">
+        〒<%= @order.end_user.postcode %>
+        <%= @order.end_user.address %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 col-xs-offset-3">
+        <%= link_to @order.end_user.first_name + @order.end_user.last_name, admins_end_users_path %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-1">
+        <div>支払方法</div>
+      </div>
+      <div class="col-xs-2">
+        <%= @order.payment_type %>
+        <%= form_with model: @order, url: admins_order_path, method: :patch, local: true do |f| %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-1">
+        <div><%= f.label :注文ステータス %></div>
+      </div>
+      <div class="col-xs-3">
+        <%= f.select :order_status, Order.order_statuses.keys, class: "select-default" %>
+        <%= f.submit "更新", class: "btn btn-primary" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-1">
+      <table class="table">
+        <thead>
+          <tr class="active">
+            <th>商品名</th>
+            <th>単価（税込み）</th>
+            <th>数量</th>
+            <th>小計</th>
+            <th>製作ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sum = 0 %>
+          <% @order.order_details.each do |order_detail| %>
+          <tr>
+            <td>
+              <%= order_detail.item.name %>
+            </td>
+            <td>
+              <%= (order_detail.item.non_taxed_price * 1.1).floor.to_s(:delimited) %>
+            </td>
+            <td>
+              <%= order_detail.quantity %>
+            </td>
+            <td>
+              <%= (order_detail.item.non_taxed_price * 1.1 * order_detail.quantity).floor.to_s(:delimited) %>
+            </td>
+            <td>
+              <%= form_with model: order_detail, url: admins_order_detail_path(order_detail), method: :patch, local: true do |f| %>
+              <%= f.select :item_status, OrderDetail.item_statuses.keys %>
+              <%= f.submit "更新", class: "btn btn-primary" %>
+              <% end %>
+            </td>
+          </tr>
+          <% @sum += order_detail.item.non_taxed_price * 1.1 * order_detail.quantity  %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-xs-5">
+      <% @postage = 800 %>
+      <div class="row">
+        <div class= "col-xs-4">
+          <div>商品合計</div>
+        </div>
+        <div class= "col-xs-3">
+          <%= @sum.floor.to_s(:delimited) %> 円
+        </div>
+      </div>
+      <div class="row">
+        <div class= "col-xs-4">
+          <div>送料</div>
+        </div>
+        <div class= "col-xs-3">
+          <%= @postage %> 円
+        </div>
+      </div>
+      <div class="row">
+        <div class= "col-xs-4">
+          <div>請求金額合計</div>
+        </div>
+        <div class= "col-xs-3">
+          <%= (@sum + @postage).floor.to_s(:delimited) %> 円
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

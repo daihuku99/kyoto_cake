@@ -26,7 +26,7 @@
           <li><%= link_to ' 会員一覧', admins_end_users_path, class: "glyphicon glyphicon-user" %></li>
           <li><%= link_to ' 注文履歴一覧', admins_orders_path, class: "glyphicon glyphicon-list-alt" %></li>
           <li><%= link_to ' ジャンル管理', admins_genres_path, class: "glyphicon glyphicon-star" %></li>
-          <li><%= link_to ' ログアウト', destroy_admins_user_session_path, method: :delete, class: "glyphicon glyphicon-log-out" %></li>
+          <li><%= link_to ' ログアウト', destroy_admin_session_path, method: :delete, class: "glyphicon glyphicon-log-out" %></li>
           <% elsif end_user_signed_in? %>
           <li>ようこそ、<%= current_end_user.first_name %> <%= current_end_user.last_name %>さん！</li>
           <li><%= link_to ' マイページ', end_user_path(current_end_user), class: "glyphicon glyphicon-home" %></li>
