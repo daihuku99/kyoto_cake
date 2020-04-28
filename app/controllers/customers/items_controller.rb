@@ -1,6 +1,14 @@
 class Customers::ItemsController < ApplicationController
 	def index
-    @items = Item.all
+    @genres = Genre.all
+    if params[:genre]
+      genre = Genre.find(params[:genre].to_i)
+      @items = genre.items
+    elsif params[:sort] == "desc"
+      @items = Item.all.order(id: "DESC" )
+    else
+      @items = Item.all
+    end
 	end
 
 	def show

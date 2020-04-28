@@ -24,7 +24,8 @@ Rails.application.routes.draw do
 
   scope module: :customers do
     resources :end_users, only: [:show, :edit, :update]
-    get 'end_users/confirm' => 'end_users#confirm', as: :confirm
+    get 'end_users/:id/confirm' => 'end_users#confirm', as: :confirm
+    patch 'end_users/:id/withdrawal' => 'end_users#withdrawal', as: :withdrawal
     resources :items, only: [:index, :show]
     delete 'cart_items/empty' => 'cart_items#empty', as: :empty
     resources :cart_items, only: [:index, :create, :destroy, :update]

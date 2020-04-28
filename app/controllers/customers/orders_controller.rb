@@ -6,12 +6,13 @@ class Customers::OrdersController < ApplicationController
 
   def confirm
     @select_address = params[:select_address]
-    if @select_address == "1"
+    case  @select_address
+    when "1"
       @address,@postcode,@direction = current_end_user.address,current_end_user.postcode,current_end_user.first_name
-    elsif @select_address == "2"
+    when "2"
       delivery = Delivery.find(order_params[:address_id])
       @address,@postcode,@direction = delivery.address,delivery.postcode,delivery.direction
-    else
+    when "3"
       @address,@postcode,@direction = order_params[:address],order_params[:postcode],order_params[:direction]
     end
     @order = Order.new
@@ -27,11 +28,11 @@ class Customers::OrdersController < ApplicationController
     order.order_status = 0
     order.tax = 1.1
     if params[:select_address] == "3"
-      delivery = current_end_user.deliveries.new(deli_params)
-      delivery.save
+      delivery = current_end_user.deliveries.create(deli_params)
     end
     if order.save
-      current_end_user.cart_items.each do |cart_item|
+      current_end_user.new_detail
+      # current_end_user.cart_items.each do |cart_item|
         order_detail = OrderDetail.new
         order_detail.item_id = cart_item.item.id
         order_detail.price = cart_item.item.non_taxed_price

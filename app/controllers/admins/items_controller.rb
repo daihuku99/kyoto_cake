@@ -1,4 +1,5 @@
 class Admins::ItemsController < ApplicationController
+	before_action :set_item, only: [:show, :edit, :update]
 	def index
 		@items = Item.all
 	end
@@ -15,24 +16,24 @@ class Admins::ItemsController < ApplicationController
 	end
 
 	def show
-		@item = Item.find(params[:id])
 		@tax_ptice = @item.non_taxed_price * 1.1
 	end
 
 	def edit
-		@item = Item.find(params[:id])
 		@genres = Genre.all
 	end
 
 	def update
-		item = Item.find(params[:id])
-		genres = Genre.all
-		item.update(item_params)
-		redirect_to admins_item_path(item)
+		@item.update(item_params)
+		redirect_to admins_item_path(@item)
 	end
 
 	private
 	def item_params
 		params.require(:item).permit(:name, :image, :detail, :non_taxed_price, :sale_status, :genre_id, :is_valid)
+	end
+
+	def set_item
+		@item = Item.find(params[:id])
 	end
 end

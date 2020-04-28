@@ -5,8 +5,7 @@ class Customers::DeliveriesController < ApplicationController
   end
 
   def create
-    delivery = current_end_user.deliveries.new(deli_params)
-    delivery.save
+    delivery = current_end_user.deliveries.create(deli_params)
     redirect_to deliveries_path
   end
 

@@ -1,6 +1,15 @@
 <div class="container">
   <div class="row">
     <h3>商品一覧</h3>
+    <div class="desc">
+      <%=link_to "降順", items_path(sort: "desc") %>
+    </div>
+    <div class="genre-index">
+      <h6>ジャンル別表示</h6>
+      <% @genres.each do |genre| %>
+        <%= link_to genre.name, items_path(genre: genre.id) %>
+      <% end %>
+    </div>
   </div>
   <div class="item-index">
     <table class="table">
