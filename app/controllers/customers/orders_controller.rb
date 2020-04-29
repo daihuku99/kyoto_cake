@@ -31,8 +31,8 @@ class Customers::OrdersController < ApplicationController
       delivery = current_end_user.deliveries.create(deli_params)
     end
     if order.save
-      current_end_user.new_detail
-      # current_end_user.cart_items.each do |cart_item|
+      # current_end_user.new_detail
+      current_end_user.cart_items.each do |cart_item|
         order_detail = OrderDetail.new
         order_detail.item_id = cart_item.item.id
         order_detail.price = cart_item.item.non_taxed_price
