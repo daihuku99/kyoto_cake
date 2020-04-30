@@ -22,4 +22,20 @@ class Order < ApplicationRecord
     end
     return sum
   end
+
+  def new_order(user)
+    Order.transaction do
+      self.save!
+      user.cart_items.each do |cart_item|
+          order_detail = OrderDetail.new
+          order_detail.item_id = cart_item.item.id
+          order_detail.price = cart_item.item.non_taxed_price
+          order_detail.item_status = 0
+          order_detail.quantity = cart_item.quantity
+          order_detail.order_id = self.id
+          order_detail.save
+      end
+      user.cart_items.destroy_all
+    end
+  end
 end

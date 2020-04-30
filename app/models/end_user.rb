@@ -41,16 +41,4 @@ class EndUser < ApplicationRecord
     super && (self.is_deleted == "有効")
   end
 
-  # def new_detail
-  #   self.cart_items.each do |cart_item|
-  #     order_detail = OrderDetail.new
-  #     order_detail.item_id = cart_item.item.id
-  #     order_detail.price = cart_item.item.non_taxed_price
-  #     order_detail.item_status = 0
-  #     order_detail.quantity = cart_item.quantity
-  #     order_detail.order_id = order.id
-  #     order_detail.save
-  #   end
-  # end
-
 end

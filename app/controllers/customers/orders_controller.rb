@@ -30,19 +30,7 @@ class Customers::OrdersController < ApplicationController
     if params[:select_address] == "3"
       delivery = current_end_user.deliveries.create(deli_params)
     end
-    if order.save
-      # current_end_user.new_detail
-      current_end_user.cart_items.each do |cart_item|
-        order_detail = OrderDetail.new
-        order_detail.item_id = cart_item.item.id
-        order_detail.price = cart_item.item.non_taxed_price
-        order_detail.item_status = 0
-        order_detail.quantity = cart_item.quantity
-        order_detail.order_id = order.id
-        order_detail.save
-        # p order_detail.errors(デバックの方法)
-      end
-      current_end_user.cart_items.destroy_all
+    if order.new_order(current_end_user)
       redirect_to thanks_path
     else
       render :new
